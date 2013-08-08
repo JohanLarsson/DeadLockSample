@@ -3,6 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <Button Click="ButtonBase_OnClick">DeadLock</Button>
+        <StackPanel>
+            <Button Click="DeadLockClick">ConfigureAwait(true) (DeadLock)</Button>
+            <Button Click="NoDeadLockClick">ConfigureAwait(true) (No Deadlock)</Button>
+            <TextBlock x:Name="Result"/>
+        </StackPanel>
+
     </Grid>
 </Window>

@@ -26,14 +26,19 @@ namespace DeadLockSample
             InitializeComponent();
         }
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        private void DeadLockClick(object sender, RoutedEventArgs e)
         {
-            int result = MethodAsyncDefault().Result;
+            Result.Text = MethodAsyncDefault().Result.ToString();
+        }
+
+        private void NoDeadLockClick(object sender, RoutedEventArgs e)
+        {
+            Result.Text = MethodAsyncFalse().Result.ToString();
         }
 
         private async Task<int> MethodAsyncDefault()
         {
-            await Task.Delay(1000); //This does not use the thread
+            await Task.Delay(1000).ConfigureAwait(true); //This does not use the thread
             return 1;
         }
 
@@ -48,5 +53,7 @@ namespace DeadLockSample
             Thread.Sleep(1000); //Simulate heavy CPU work using the thread
             return 1;
         }
+
+
     }
 }
