@@ -36,6 +36,27 @@ namespace DeadLockSample
             Result.Text = MethodAsyncFalse().Result.ToString();
         }
 
+        private async void SequentialClick(object sender, RoutedEventArgs e)
+        {
+            int sum = 0;
+            for (int i = 0; i < 5; i++)
+            {
+                sum +=await MethodAsyncFalse();
+            }
+            Result.Text = sum.ToString();
+        }
+
+        private async void ParalellClick(object sender, RoutedEventArgs e)
+        {
+            var tasks = new Task<int>[5];
+            for (int i = 0; i < 5; i++)
+            {
+                tasks[i]= MethodAsyncFalse();
+            }
+            int[] ints = await Task.WhenAll(tasks);
+            Result.Text = ints.Sum().ToString();
+        }
+
         private async Task<int> MethodAsyncDefault()
         {
             await Task.Delay(1000).ConfigureAwait(true); //This does not use the thread
@@ -53,6 +74,7 @@ namespace DeadLockSample
             Thread.Sleep(1000); //Simulate heavy CPU work using the thread
             return 1;
         }
+
 
 
     }
